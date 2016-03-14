@@ -54,7 +54,7 @@ int main()
     int taille = 4;
     float *pat = new float[taille];
     pat[0] = 1;
-    pat[1] = 1;
+    pat[1] = 0;
     pat[2] = 1;
     pat[3] = 1;
     float tab[size_tab];
