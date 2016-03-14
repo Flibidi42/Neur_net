@@ -5,7 +5,7 @@
 #include <cstdlib>
 #include <ctime>
 
-const float learn_rate = 3.f;
+const float learn_rate = 0.1f;
 
 class Neur
 {
