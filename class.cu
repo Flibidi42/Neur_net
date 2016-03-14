@@ -130,10 +130,6 @@ float Neur::learning(float* input, float error_factor)
 	return add;
 }
 
-Neur::~Neur(){
-	delete m_weight;
-}
-
 float Neur::test(float *input)
 {
 	int nb_blocks = ((m_nb_branchs+(threadsPerBlock-1))/threadsPerBlock);
