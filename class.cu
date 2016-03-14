@@ -157,9 +157,7 @@ float Neur::test(float *input)
 		
 	for(int i = 0; i<nb_blocks; i++){
         out += c[i];
-     }
-		
-	cout << out << endl;
+    }
 	
 	HANDLE_ERROR( cudaMemcpy(m_weight, dev_b, m_nb_branchs*sizeof(float), cudaMemcpyDeviceToHost ) );
 	cudaFree( dev_a );
