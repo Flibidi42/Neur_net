@@ -120,24 +120,13 @@ float Neur::learning(float* input, float error_factor)
 	free(c);*/
 	 //Logistic neuron
     float y = 0.f;
-    float z = 0.f;
     float add = 0.f;
-    for(int i = 0; i<m_nb_branchs; i++)
-    {
-        z += input[i] * m_weight[i];
-    }
-    y = sigmo(z);
-
+    y = test(input);
     add = y*(1-y)*error_factor;
-    z = 0.f;
     for(int i = 0; i<m_nb_branchs; i++)
     {
         m_weight[i] += add*input[i]*learn_rate;
-        z += input[i] * m_weight[i];
     }
-    y = sigmo(z);
-    
-	
 	return add;
 }
 
@@ -147,13 +136,41 @@ float Neur::~Neur(){
 
 float Neur::test(float *input)
 {
-    
-	float result = 0.f;
-    for(int i = 0; i<m_nb_branchs ; i++)
-    {
-        result += m_weight[i] * input[i];
+	int nb_blocks = ((m_nb_branchs+(threadsPerBlock-1))/threadsPerBlock);
+	
+	float *c = (float *)malloc(nb_blocks*sizeof(float));
+	float *dev_a, *dev_b, *dev_partial_c, *dev_add; 
+	int *dev_N;
+	
+	HANDLE_ERROR( cudaMalloc( (void**)&dev_a, m_nb_branchs*sizeof(float) ) );
+	HANDLE_ERROR( cudaMemcpy( dev_a, input, m_nb_branchs*sizeof(float), cudaMemcpyHostToDevice ) );
+	HANDLE_ERROR( cudaMalloc( (void**)&dev_b, m_nb_branchs*sizeof(float) ) );
+	HANDLE_ERROR( cudaMalloc( (void**)&dev_partial_c, ((m_nb_branchs+(threadsPerBlock-1))/threadsPerBlock)*sizeof(float) ) );
+	HANDLE_ERROR( cudaMalloc( (void**)&dev_N, sizeof(int) ) );
+	HANDLE_ERROR( cudaMemcpy( dev_N, &m_nb_branchs, sizeof(int), cudaMemcpyHostToDevice ) );
+	HANDLE_ERROR( cudaMalloc( (void**)&dev_add, sizeof(int) ) );
+	
+    float out = 0.f;
+    float add = 0.f;
+	HANDLE_ERROR( cudaMemcpy( dev_add, &add, sizeof(float), cudaMemcpyHostToDevice ) );
+	HANDLE_ERROR( cudaMemcpy( dev_b, m_weight, m_nb_branchs*sizeof(float), cudaMemcpyHostToDevice ) );
+		
+	dot<<<nb_blocks,threadsPerBlock>>>( dev_a, dev_b, dev_partial_c, dev_N, dev_add);
+		
+	HANDLE_ERROR( cudaMemcpy(c, dev_partial_c, nb_blocks*sizeof(float), cudaMemcpyDeviceToHost ) );
+		
+	for(int i = 0; i<nb_blocks; i++){
+        out += c[i];
     }
-    return sigmo(result);
+	
+	HANDLE_ERROR( cudaMemcpy(m_weight, dev_b, m_nb_branchs*sizeof(float), cudaMemcpyDeviceToHost ) );
+	cudaFree( dev_a );
+	cudaFree( dev_b );
+	cudaFree( dev_partial_c );
+	cudaFree( dev_add );
+	cudaFree( dev_N );
+	free(c);
+	return sigmo(out);
 }
 
 float Neur::sigmo(float val){
