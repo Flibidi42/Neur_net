@@ -130,10 +130,6 @@ float Neur::learning(float* input, float error_factor)
 	return add;
 }
 
-Neur::~Neur(){
-	delete m_weight;
-}
-
 float Neur::test(float *input)
 {
 	int nb_blocks = ((m_nb_branchs+(threadsPerBlock-1))/threadsPerBlock);
@@ -162,8 +158,6 @@ float Neur::test(float *input)
 	for(int i = 0; i<nb_blocks; i++){
         out += c[i];
     }
-	
-	HANDLE_ERROR( cudaMemcpy(m_weight, dev_b, m_nb_branchs*sizeof(float), cudaMemcpyDeviceToHost ) );
 	cudaFree( dev_a );
 	cudaFree( dev_b );
 	cudaFree( dev_partial_c );

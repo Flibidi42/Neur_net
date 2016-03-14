@@ -33,6 +33,7 @@ float Net::learning(float m_expect, float *input){
         input_layer[i].learning(input, add* output_layer->get_weight(i));
     }
     error = m_expect - test(input);
+	delete transition;
     return 0.5*error*error;
 }
 
@@ -43,6 +44,7 @@ float Net::test(float *input){
 		transition[i]  = input_layer[i].test(input);
 	}
 	output = output_layer->test(transition);
+	delete transition;
 	return output;
 }
 
