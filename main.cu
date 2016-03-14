@@ -8,7 +8,7 @@ using namespace std;
 int main()
 {
 	srand(time(NULL));
-    Net* my_net = new Net(2, size_tab);
+    Net my_net(2, size_tab);
 	float tab[size_tab];
 	
 	int test = 0;
