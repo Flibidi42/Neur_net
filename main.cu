@@ -1,6 +1,6 @@
 #include "class.hpp"
 #define size_tab 2
-#define nb_train 10000
+#define nb_train 1000
 
 using namespace std;
 
@@ -17,7 +17,7 @@ int main()
 		tab[0] = rand() % 2;
 		tab[1] = rand() % 2;
 		test = (tab[0] == 1 || tab[1] == 1)?1:0;
-		cout << "Error : " << my_net.learning(test, tab) << endl;	
+		my_net.learning(test, tab);
 	}
 	
 	my_net.getState();
