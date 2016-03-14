@@ -130,7 +130,7 @@ float Neur::learning(float* input, float error_factor)
 	return add;
 }
 
-float Neur::~Neur(){
+Neur::~Neur(){
 	delete m_weight;
 }
 
