@@ -136,18 +136,18 @@ float Neur::test(float *input)
 	
 	float *c = (float *)malloc(nb_blocks*sizeof(float));
 	float *dev_a, *dev_b, *dev_partial_c, *dev_add; 
-	int *dev_N;	
+	int *dev_N;
 	
 	HANDLE_ERROR( cudaMalloc( (void**)&dev_a, m_nb_branchs*sizeof(float) ) );
 	HANDLE_ERROR( cudaMemcpy( dev_a, input, m_nb_branchs*sizeof(float), cudaMemcpyHostToDevice ) );
 	HANDLE_ERROR( cudaMalloc( (void**)&dev_b, m_nb_branchs*sizeof(float) ) );
-	HANDLE_ERROR( cudaMalloc( (void**)&dev_partial_c, ((m_nb_branchs+15)/16)*sizeof(float) ) );
+	HANDLE_ERROR( cudaMalloc( (void**)&dev_partial_c, ((m_nb_branchs+(threadsPerBlock-1))/threadsPerBlock)*sizeof(float) ) );
 	HANDLE_ERROR( cudaMalloc( (void**)&dev_N, sizeof(int) ) );
 	HANDLE_ERROR( cudaMemcpy( dev_N, &m_nb_branchs, sizeof(int), cudaMemcpyHostToDevice ) );
 	HANDLE_ERROR( cudaMalloc( (void**)&dev_add, sizeof(int) ) );
 	
     float out = 0.f;
-    float add = 1.f;
+    float add = 0.f;
 	HANDLE_ERROR( cudaMemcpy( dev_add, &add, sizeof(float), cudaMemcpyHostToDevice ) );
 	HANDLE_ERROR( cudaMemcpy( dev_b, m_weight, m_nb_branchs*sizeof(float), cudaMemcpyHostToDevice ) );
 		
@@ -159,6 +159,8 @@ float Neur::test(float *input)
         out += c[i];
      }
 		
+	cout << out << endl;
+	
 	HANDLE_ERROR( cudaMemcpy(m_weight, dev_b, m_nb_branchs*sizeof(float), cudaMemcpyDeviceToHost ) );
 	cudaFree( dev_a );
 	cudaFree( dev_b );
