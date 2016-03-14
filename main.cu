@@ -1,7 +1,7 @@
 #include "class.hpp"
 #define size_tab 8
-#define nb_train 10
-#define size_layer 8
+#define nb_train 1000
+#define size_layer 16
 
 using namespace std;
 
@@ -56,10 +56,11 @@ int main()
     pat[0] = 1;
     pat[1] = 0;
     pat[2] = 1;
-    pat[3] = 1;
+    pat[3] = 0;
     float tab[size_tab];
     cout << compare(tab, pat, taille) << endl;
 
+	float test;
     float pat_test[size_tab];
     for(int  j = 0; j< nb_train; j++)
     {
@@ -69,15 +70,18 @@ int main()
             for(int  i = 0; i<size_tab; i++){
                 cout << pat_test[i] << " ";
             }
+			cout << "(" << 1 << ")";
         }
         else{
             for(int  i = 0; i<size_tab; i++){
                 tab[i] = rand() % 2;
             }
-            cout << "Erreur : " << my_net.learning(compare(tab, pat, taille), tab) << " avec ";
+			test = compare(tab, pat, taille);
+            cout << "Erreur : " << my_net.learning(test, tab) << " avec ";
             for(int  i = 0; i<size_tab; i++){
                 cout << tab[i] << " ";
             }
+			cout << "(" << test << ")";
         }
         cout << endl;
     }
@@ -86,9 +90,9 @@ int main()
 
     cout << "Tab : ";
     tab[0] = 1;
-    tab[1] = 1;
+    tab[1] = 0;
     tab[2] = 1;
-    tab[3] = 1;
+    tab[3] = 0;
     tab[4] = 0;
     tab[5] = 0;
     tab[6] = 0;
@@ -116,9 +120,9 @@ int main()
     tab[0] = 0;
     tab[1] = 0;
     tab[2] = 1;
-    tab[3] = 1;
+    tab[3] = 0;
     tab[4] = 1;
-    tab[5] = 1;
+    tab[5] = 0;
     tab[6] = 0;
     tab[7] = 0;
     for(int  i = 0; i<size_tab; i++){
@@ -130,9 +134,9 @@ int main()
     tab[0] = 1;
     tab[1] = 0;
     tab[2] = 1;
-    tab[3] = 1;
-    tab[4] = 0;
-    tab[5] = 1;
+    tab[3] = 0;
+    tab[4] = 1;
+    tab[5] = 0;
     tab[6] = 1;
     tab[7] = 1;
     for(int  i = 0; i<size_tab; i++){
