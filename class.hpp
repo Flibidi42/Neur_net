@@ -34,6 +34,7 @@ class Net{
 		Neur* output_layer;
 		int m_width;
 		int m_nb_input;
+		float bias;
 	
 	public:
 		Net(int width, int nb_input);
