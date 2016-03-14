@@ -4,10 +4,13 @@ using namespace std;
 
 Net::Net(int width, int nb_input){
 	m_width = width;
-	input_layer = new Neur[width];
+	input_layer = new (*Neur)[depth];
 	output_layer = new Neur(width);
 	for(int i = 0; i < width; i++){
-		input_layer[i].setBranchs(nb_input);
+		input_layer[i] = new Neur[width];
+		for(int j = 0; j<width; j++){
+			input_layer[i][j].setBranchs(nb_input);
+		}
 	}
 	m_nb_input = nb_input;
 }

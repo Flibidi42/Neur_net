@@ -14,6 +14,9 @@ private:
     float *m_weight;
     float sigmo(float val);
 	float m_bias;
+	Neur** hid_layers;
+	int m_depth;
+	
 public:
 	Neur();
     Neur(int nb_branchs);
