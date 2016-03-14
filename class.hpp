@@ -15,6 +15,7 @@ private:
     float sigmo(float val);
 public:
 	Neur();
+	~Neur();
     Neur(int nb_branchs);
 	void setBranchs(int nb);
     float learning(float* input, float error_factor);
