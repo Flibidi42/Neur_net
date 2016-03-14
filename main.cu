@@ -1,6 +1,6 @@
 #include "class.hpp"
 #define size_tab 2
-#define nb_train 1000
+#define nb_train 10000
 
 using namespace std;
 
@@ -25,7 +25,6 @@ int main()
 	tab[0] = 0;
 	tab[1] = 0;
 	cout << "Test : with 0 0 : " << my_net.test(tab) << endl;
-	cout << 9 << endl;
 	
 	tab[0] = 0;
 	tab[1] = 1;
@@ -38,7 +37,5 @@ int main()
 	tab[0] = 1;
 	tab[1] = 1;
 	cout << "Test : with 1 1 : " << my_net.test(tab) << endl;
-	
-	cout << 10 << endl;
     return 0;
 }
