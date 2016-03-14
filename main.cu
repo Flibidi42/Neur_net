@@ -74,7 +74,7 @@ int main()
             for(int  i = 0; i<size_tab; i++){
                 tab[i] = rand() % 2;
             }
-            cout << "Erreur : " << my_net.learning(compare(tab, pat, taille), pat_test) << " avec ";
+            cout << "Erreur : " << my_net.learning(compare(tab, pat, taille), tab) << " avec ";
             for(int  i = 0; i<size_tab; i++){
                 cout << tab[i] << " ";
             }
