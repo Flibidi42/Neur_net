@@ -13,6 +13,7 @@ private:
     int m_nb_branchs;
     float *m_weight;
     float sigmo(float val);
+	float m_bias;
 public:
 	Neur();
     Neur(int nb_branchs);
@@ -34,7 +35,6 @@ class Net{
 		Neur* output_layer;
 		int m_width;
 		int m_nb_input;
-		float bias;
 	
 	public:
 		Net(int width, int nb_input);

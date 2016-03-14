@@ -53,7 +53,7 @@ Neur::Neur()
     {
         m_weight[i] = frand_a_b(0.f, 1.f);
     }
-	bias = 0;	
+	m_bias = 0;	
 }
 
 void Neur::setBranchs(int nb){
@@ -127,7 +127,7 @@ float Neur::learning(float* input, float error_factor)
     {
         m_weight[i] += add*input[i]*learn_rate;
     }
-	bias += add*learn_rate;
+	m_bias += add*learn_rate;
 	return add;
 }
 
@@ -159,7 +159,7 @@ float Neur::test(float *input)
 	for(int i = 0; i<nb_blocks; i++){
         out += c[i];
     }
-	out += bias;
+	out += m_bias;
 	HANDLE_ERROR( cudaMemcpy(m_weight, dev_b, m_nb_branchs*sizeof(float), cudaMemcpyDeviceToHost ) );
 	cudaFree( dev_a );
 	cudaFree( dev_b );
