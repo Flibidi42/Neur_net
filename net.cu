@@ -16,12 +16,16 @@ Net::Net(int width, int nb_input){
 }
 
 Net::~Net(){
-	delete input_layer;
+	delete hid_layer[];
 	delete output_layer;
 }
 
 float Net::learning(float m_expect, float *input){
-	float *transition = new float[m_width];
+	float *transition = new float[m_depth];
+	for(int  i = 0; i<m_depth; i++)
+    {
+		transition[i] = new float[m_width];
+	}
     float output = 0.f;
     for(int  i = 0; i<m_width; i++)
     {
