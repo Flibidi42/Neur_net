@@ -20,7 +20,6 @@ __global__ void dot( float *a, float *b, float *c, int *N, float *add) {
 		temp += a[tid] * b[tid];
 		tid += blockDim.x * gridDim.x;
 	 }
-	 
 	 cache[cacheIndex] = temp;
 	 
 	 __syncthreads();
@@ -54,6 +53,7 @@ Neur::Neur()
     {
         m_weight[i] = frand_a_b(0.f, 1.f);
     }
+	m_bias = 0;	
 }
 
 void Neur::setBranchs(int nb){
@@ -127,6 +127,7 @@ float Neur::learning(float* input, float error_factor)
     {
         m_weight[i] += add*input[i]*learn_rate;
     }
+	m_bias += add*learn_rate;
 	return add;
 }
 
@@ -158,6 +159,7 @@ float Neur::test(float *input)
 	for(int i = 0; i<nb_blocks; i++){
         out += c[i];
     }
+
 	cudaFree( dev_a );
 	cudaFree( dev_b );
 	cudaFree( dev_partial_c );
