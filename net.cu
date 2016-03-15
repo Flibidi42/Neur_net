@@ -39,6 +39,7 @@ float Net::learning(float m_expect, float *input){
     output = output_layer->test(transition[m_depth-1]);
 	//end computation
 	
+	cout << "[Debug] output : " << output << endl;
 	
 	//learning
 	float error = m_expect - output;
