@@ -21,7 +21,8 @@ float compare(float *tab, float *pat, int taille){
             j++;
             if(taille == j)
                 return 1;
-        }
+        
+		}
         else if(testing && tab[i] != pat[j] && tab[i] != pat[0]){
             j = 0;
             testing = false;
