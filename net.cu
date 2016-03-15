@@ -18,6 +18,7 @@ Net::~Net(){
 }
 
 float Net::learning(float m_expect, float *input){
+	
 	float *transition = new float[m_width];
     float output = 0.f;
     for(int  i = 0; i<m_width; i++)

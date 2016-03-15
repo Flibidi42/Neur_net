@@ -141,7 +141,7 @@ float Neur::learning(float* input, float error_factor)
 	 //Logistic neuron
 	 for(int i = 0; i<m_nb_branchs; i++)
     {
-        m_weight_old[i] += m_weight[i];
+        m_weight_old[i] = m_weight[i];
     }
     float y = 0.f;
     float add = 0.f;

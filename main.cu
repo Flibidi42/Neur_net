@@ -1,6 +1,6 @@
 #include "class.hpp"
-#define size_tab 8
-#define nb_train 10000
+#define size_tab 2
+#define nb_train 1000
 #define size_layer 16
 
 using namespace std;
@@ -51,7 +51,7 @@ void pat_gene(float *pat, float *pat_test, int taille){
 int main()
 {
 	srand(time(NULL));
-    Net my_net(2, size_tab);
+    Net my_net(size_layer, size_tab);
 	float tab[size_tab];
 	
 	int test = 0;
@@ -60,7 +60,7 @@ int main()
 		tab[0] = rand() % 2;
 		tab[1] = rand() % 2;
 		test = (tab[0] == 1 || tab[1] == 1)?1:0;
-		my_net.learning(test, tab);
+		cout << "Erreur : " << my_net.learning(test, tab) << endl;
 	}
 	
 	my_net.getState();
