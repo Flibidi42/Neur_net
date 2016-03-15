@@ -50,7 +50,7 @@ void pat_gene(float *pat, float *pat_test, int taille){
 int main()
 {
 	srand(time(NULL));
-    Net my_net(2, size_tab);
+    Net my_net(size_layer, size_tab, 2);
 	float tab[size_tab];
 	
 	int test = 0;
@@ -62,7 +62,7 @@ int main()
 		my_net.learning(test, tab);
 	}
 	
-	my_net.getState();
+	//my_net.getState();
 	
 	tab[0] = 0;
 	tab[1] = 0;

@@ -43,7 +43,7 @@ class Net{
 		Net(int width, int nb_input, int depth);
 		float learning(float m_expect, float *input);
 		float test(float *input);
-		void getState();
+		//void getState();
 };
 
 #endif // CLASS_HPP_INCLUDED

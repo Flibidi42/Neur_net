@@ -57,7 +57,7 @@ float Net::learning(float m_expect, float *input){
 			for(int k = 0; k<m_width; k++){ // compute the sum of partial derivations
 				add += add_layer_old[i];
 			}
-			add_layer[j] = hid_layers[i].learning(input, add*output_layer->get_weight(i));
+			add_layer[j] = hid_layers[i][j].learning(input, add);
 		}
 		for(int k = 0; k<m_width; k++){ // copy old in new
 				add_layer[k] += add_layer_old[i];
@@ -65,14 +65,14 @@ float Net::learning(float m_expect, float *input){
     }
     error = m_expect - test(input);
 	delete add_layer;
-	delete transition[];
+	delete transition;
 	//end learning
 	
     return 0.5*error*error;
 }
 
 float Net::test(float *input){
-	float *transition = new float[m_depth];
+	float**transition = new float*[m_depth];
 	for(int  i = 0; i<m_depth; i++)
     {
 		transition[i] = new float[m_width];
@@ -88,16 +88,16 @@ float Net::test(float *input){
 		}
     }
     output = output_layer->test(transition[m_depth-1]);
-	delete transition[];
+	delete transition;
 	return output;
 }
-
+/*
 void Net::getState(){
 	
 	for(int i = 0; i < m_width; i++){
 		cout << "Neuron nb "<< i <<" : ";
 		for(int j = 0; j< m_nb_input; j++){
-			cout << input_layer[i].get_weight(j) << " ";
+			cout << input_layer[i][j].get_weight(j) << " ";
 		}
 		cout << endl;
 	}
@@ -108,4 +108,4 @@ void Net::getState(){
 	}
 	cout << endl;
 	
-}
+}*/
