@@ -1,6 +1,6 @@
 #include "class.hpp"
 #define size_tab 8
-#define nb_train 10000
+#define nb_train 1000
 #define size_layer 16
 
 using namespace std;

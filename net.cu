@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Net::Net(int width, int nb_input, int depth = 1){
+Net::Net(int width, int nb_input, int depth = 1){ // /!\ depth is the depth without the output neuron
 	m_width = width;
 	m_depth = depth;
 	hid_layers = new Neur*[depth];
@@ -19,6 +19,8 @@ Net::Net(int width, int nb_input, int depth = 1){
 }
 
 float Net::learning(float m_expect, float *input){
+	
+	//output computation
 	float**transition = new float*[m_depth];
 	for(int  i = 0; i<m_depth; i++)
     {
@@ -35,14 +37,37 @@ float Net::learning(float m_expect, float *input){
 		}
     }
     output = output_layer->test(transition[m_depth-1]);
-    float error = m_expect - output;
-    float add = output_layer->learning(transition, error);
-    for(int  i = 0; i<m_width; i++)
+	//end computation
+	
+	
+	//learning
+	float error = m_expect - output;
+    float add= output_layer->learning(transition[m_depth-1], error);
+	float* add_layer = new float[m_width]; // containing partial derivations during the actualisation
+	float* add_layer_old = new float[m_width]; // containing partial derivations before the actualisation
+	for(int i = 0; i<m_width; i++){ // first layer before output
+		add_layer_old[i] = hid_layers[m_depth-1][i].learning(input, add*output_layer->get_weight(i));
+		
+	}
+    //other layers
+    for(int  i = m_depth-2; i>=0; i--) // layers decreasing
     {
-        hid_layers[m_depth-1][i].learning(input, add*output_layer->get_weight(i));
+		for(int j  = 0; j < m_width; j++){ // every neuron of the layer
+			add = 0.f;
+			for(int k = 0; k<m_width; k++){ // compute the sum of partial derivations
+				add += add_layer_old[i];
+			}
+			add_layer[j] = hid_layers[i].learning(input, add*output_layer->get_weight(i));
+		}
+		for(int k = 0; k<m_width; k++){ // copy old in new
+				add_layer[k] += add_layer_old[i];
+		}
     }
     error = m_expect - test(input);
+	delete add_layer;
 	delete transition[];
+	//end learning
+	
     return 0.5*error*error;
 }
 
