@@ -41,7 +41,6 @@ class Net{
 	
 	public:
 		Net(int width, int nb_input);
-		~Net();
 		float learning(float m_expect, float *input);
 		float test(float *input);
 		void getState();

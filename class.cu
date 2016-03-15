@@ -85,9 +85,7 @@ void Neur::setBranchs(int nb){
 	}
 	delete m_weight_old;
 	m_weight_old = tempo;
-	delete tempo;
 	m_nb_branchs = nb;
-	
 }
 
 float Neur::learning(float* input, float error_factor)
