@@ -14,6 +14,7 @@ private:
     float *m_weight;
     float sigmo(float val);
 	float m_bias;
+	float *m_weight_old;
 public:
 	Neur();
     Neur(int nb_branchs);
@@ -22,7 +23,7 @@ public:
     float test(float *input);
 	float get_weight(int i){
 		if(i < m_nb_branchs)
-			return m_weight[i];
+			return m_weight_old[i];
 		else
 			return 0;
 	};

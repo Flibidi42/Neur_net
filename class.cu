@@ -43,6 +43,11 @@ Neur::Neur(int nb_branchs)
     {
         m_weight[i] = 0.5;
     }
+	m_weight_old = new float[nb_branchs];
+    for(int i = 0; i < nb_branchs; i++)
+    {
+        m_weight_old[i] = 0.5;
+    }
 }
 
 Neur::Neur()
@@ -52,6 +57,11 @@ Neur::Neur()
     for(int i = 0; i < 1; i++)
     {
         m_weight[i] = frand_a_b(0.f, 1.f);
+    }
+	m_weight_old = new float[1];
+    for(int i = 0; i < 1; i++)
+    {
+        m_weight_old[i] = frand_a_b(0.f, 1.f);
     }
 	m_bias = 0;	
 }
@@ -67,6 +77,13 @@ void Neur::setBranchs(int nb){
 	}
 	delete m_weight;
 	m_weight = tempo;
+	delete tempo;
+	tempo = new float[nb];
+	for(int i = 0; i<nb; i++){
+		tempo[i] = m_weight[i];
+	}
+	delete m_weight_old;
+	m_weight_old = tempo;
 	m_nb_branchs = nb;
 }
 
@@ -119,6 +136,10 @@ float Neur::learning(float* input, float error_factor)
 	cudaFree( dev_N );
 	free(c);*/
 	 //Logistic neuron
+	 for(int i = 0; i<m_nb_branchs; i++)
+    {
+        m_weight_old[i] = m_weight[i];
+    }
     float y = 0.f;
     float add = 0.f;
     y = test(input);
