@@ -5,7 +5,9 @@ using namespace std;
 Net::Net(int width, int nb_input, int depth = 1){
 	m_width = width;
 	m_depth = depth;
-	hid_layers = new (*Neur)[depth];
+	for(int i = 0; i < width; i++){
+		hid_layers[i] = new (Neur*)[depth];
+	}
 	output_layer = new Neur(width);
 	for(int i = 0; i < width; i++){
 		hid_layers[i] = new Neur[width];
