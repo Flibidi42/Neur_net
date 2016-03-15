@@ -32,7 +32,6 @@ public:
 class Net{
 	
 	private:
-		Neur* input_layer;
 		Neur* output_layer;
 		int m_width;
 		int m_nb_input;
