@@ -75,7 +75,9 @@ float Net::learning(float m_expect, float *input){
 	
 	for(int  i = 0; i<m_width; i++)
     {
-		y[i]
+		y[i] = input_layer[i].test(input);
+		bias[i] = input_layer[i].m_bias;
+		
     }
 	
     error = m_expect - test(input);
