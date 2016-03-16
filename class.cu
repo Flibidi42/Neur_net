@@ -35,6 +35,10 @@ __global__ void dot( float *a, float *b, float *c, int *N, float *add) {
 		c[blockIdx.x] = cache[0];
 }
 
+__global__ add para_learning(float* input, float error_factor, Neur** tab_neur){
+	
+}
+
 Neur::Neur(int nb_branchs)
 {
     m_nb_branchs = nb_branchs;
