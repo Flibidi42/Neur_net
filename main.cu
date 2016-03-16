@@ -1,148 +1,43 @@
 #include "class.hpp"
-#define size_tab 8
-#define nb_train 10000
+#define size_tab 2
+#define nb_train 100
 #define size_layer 16
 
 using namespace std;
 
 
-float compare(float *tab, float *pat, int taille){
-
-    int j = 0;
-    bool testing = false; // 1 0 1
-    for(int  i = 0; i<size_tab; i++){ // 0 1 1 0 1
-        if(!testing && tab[i] == pat[j]){
-            testing = true;
-            j++;
-            if(taille == 1)
-                return 1;
-        }
-        else if(testing && tab[i] == pat[j]){
-            j++;
-            if(taille == j)
-                return 1;
-        }
-        else if(testing && tab[i] != pat[j] && tab[i] != pat[0]){
-            j = 0;
-            testing = false;
-        }
-        else if(testing && tab[i] != pat[j] && tab[i]){
-            j = 1;
-        }
-    }
-    return 0;
-}
-
-void pat_gene(float *pat, float *pat_test, int taille){
-
-    int step = rand()%(size_tab - taille);
-    int j = 0;
-    for(int  i = 0; i<size_tab; i++){
-        if(i >= step && i<step+taille){
-            pat_test[i] = pat[j];
-            j++;
-        }
-        else
-            pat_test[i] = rand() % 2;
-    }
-}
-
 int main()
 {
-    srand(time(NULL));
+	srand(time(NULL));
     Net my_net(size_layer, size_tab);
-    int taille = 4;
-    float *pat = new float[taille];
-    pat[0] = 1;
-    pat[1] = 0;
-    pat[2] = 1;
-    pat[3] = 0;
-    float tab[size_tab];
-    cout << compare(tab, pat, taille) << endl;
-
-	float test;
-    float pat_test[size_tab];
-    for(int  j = 0; j< nb_train; j++)
-    {
-        if(rand()%7 < 2){
-            pat_gene(pat, pat_test, taille);
-            cout << "Erreur : " << my_net.learning(1.f, pat_test) << " avec ";
-            for(int  i = 0; i<size_tab; i++){
-                cout << pat_test[i] << " ";
-            }
-			cout << "(" << 1 << ")";
-        }
-        else{
-            for(int  i = 0; i<size_tab; i++){
-                tab[i] = rand() % 2;
-            }
-			test = compare(tab, pat, taille);
-            cout << "Erreur : " << my_net.learning(test, tab) << " avec ";
-            for(int  i = 0; i<size_tab; i++){
-                cout << tab[i] << " ";
-            }
-			cout << "(" << test << ")";
-        }
-        cout << endl;
-    }
-
-
-
-    cout << "Tab : ";
-    tab[0] = 1;
-    tab[1] = 0;
-    tab[2] = 1;
-    tab[3] = 0;
-    tab[4] = 0;
-    tab[5] = 0;
-    tab[6] = 0;
-    tab[7] = 0;
-    for(int  i = 0; i<size_tab; i++){
-        cout << tab[i] << " ";
-    }
-    cout << endl << "Test :" << my_net.test(tab) << endl;
-
-    cout << "Tab : ";
-    tab[0] = 0;
-    tab[1] = 0;
-    tab[2] = 1;
-    tab[3] = 1;
-    tab[4] = 0;
-    tab[5] = 0;
-    tab[6] = 0;
-    tab[7] = 0;
-    for(int  i = 0; i<size_tab; i++){
-        cout << tab[i] << " ";
-    }
-    cout << endl << "Test :" << my_net.test(tab) << endl;
-
-    cout << "Tab : ";
-    tab[0] = 0;
-    tab[1] = 0;
-    tab[2] = 1;
-    tab[3] = 0;
-    tab[4] = 1;
-    tab[5] = 0;
-    tab[6] = 0;
-    tab[7] = 0;
-    for(int  i = 0; i<size_tab; i++){
-        cout << tab[i] << " ";
-    }
-    cout << endl << "Test :" << my_net.test(tab) << endl;
-
-    cout << "Tab : ";
-    tab[0] = 1;
-    tab[1] = 0;
-    tab[2] = 1;
-    tab[3] = 0;
-    tab[4] = 1;
-    tab[5] = 0;
-    tab[6] = 1;
-    tab[7] = 1;
-    for(int  i = 0; i<size_tab; i++){
-        cout << tab[i] << " ";
-    }
-    cout << endl << "Test :" << my_net.test(tab) << endl;
+	float tab[size_tab];
+	
+	int test = 0;
+	
+	for(int  i = 0; i< nb_train; i++){
+		tab[0] = rand() % 2;
+		tab[1] = rand() % 2;
+		test = (tab[0] == 1 || tab[1] == 1)?1:0;
+		cout << "Erreur : " << my_net.learning(test, tab) << endl;
+	}
+	
+	my_net.getState();
+	
+	tab[0] = 0;
+	tab[1] = 0;
+	cout << "Test : with 0 0 : " << my_net.test(tab) << endl;
+	
+	tab[0] = 0;
+	tab[1] = 1;
+	cout << "Test : with 0 1 : " << my_net.test(tab) << endl;
+	
+	tab[0] = 1;
+	tab[1] = 0;
+	cout << "Test : with 1 0 : " << my_net.test(tab) << endl;
+	
+	tab[0] = 1;
+	tab[1] = 1;
+	cout << "Test : with 1 1 : " << my_net.test(tab) << endl;
 
     return 0;
 }

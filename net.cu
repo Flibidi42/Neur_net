@@ -12,12 +12,8 @@ Net::Net(int width, int nb_input){
 	m_nb_input = nb_input;
 }
 
-Net::~Net(){
-	delete input_layer;
-	delete output_layer;
-}
-
 float Net::learning(float m_expect, float *input){
+	
 	float *transition = new float[m_width];
     float output = 0.f;
     for(int  i = 0; i<m_width; i++)
@@ -29,6 +25,7 @@ float Net::learning(float m_expect, float *input){
     float add = output_layer->learning(transition, error);
     
     error = m_expect - test(input);
+	delete transition;
     return 0.5*error*error;
 }
 
@@ -39,6 +36,7 @@ float Net::test(float *input){
 		transition[i]  = input_layer[i].test(input);
 	}
 	output = output_layer->test(transition);
+	delete transition;
 	return output;
 }
 

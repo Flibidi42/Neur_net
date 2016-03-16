@@ -5,7 +5,7 @@
 #include <cstdlib>
 #include <ctime>
 
-const float learn_rate = 0.1f;
+const float learn_rate = 3.f;
 
 class Neur
 {
@@ -13,9 +13,10 @@ class Neur
 private:
     int m_nb_branchs;
     float *m_weight;
+	float *m_weight_old;
     float sigmo(float val);
 	float m_bias;
-	float *m_weight_old;
+	
 public:
 	Neur();
     Neur(int nb_branchs);
@@ -40,7 +41,6 @@ class Net{
 	
 	public:
 		Net(int width, int nb_input);
-		~Net();
 		float learning(float m_expect, float *input);
 		float test(float *input);
 		void getState();

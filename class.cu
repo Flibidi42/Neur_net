@@ -88,6 +88,7 @@ Neur::Neur()
 
 void Neur::setBranchs(int nb){
 	
+	
 	float *tempo = new float[nb];
 	for(int i = 0; i<nb; i++){
 		if(i<m_nb_branchs)
@@ -200,8 +201,7 @@ float Neur::test(float *input)
 	for(int i = 0; i<nb_blocks; i++){
         out += c[i];
     }
-	out += m_bias;
-	HANDLE_ERROR( cudaMemcpy(m_weight, dev_b, m_nb_branchs*sizeof(float), cudaMemcpyDeviceToHost ) );
+
 	cudaFree( dev_a );
 	cudaFree( dev_b );
 	cudaFree( dev_partial_c );
