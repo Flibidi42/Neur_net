@@ -46,4 +46,5 @@ class Net{
 		void getState();
 };
 
-#endif // CLASS_HPP_INCLUDED
+#endif // CLA
+SS_HPP_INCLUDED
