@@ -9,6 +9,7 @@ const float learn_rate = 0.1f;
 
 class Neur
 {
+	friend class Net;
 private:
     int m_nb_branchs;
     float *m_weight;

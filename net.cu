@@ -27,10 +27,7 @@ float Net::learning(float m_expect, float *input){
     output = output_layer->test(transition);
     float error = m_expect - output;
     float add = output_layer->learning(transition, error);
-    for(int  i = 0; i<m_width; i++)
-    {
-        input_layer[i].learning(input, add* output_layer->get_weight(i));
-    }
+    
     error = m_expect - test(input);
     return 0.5*error*error;
 }
