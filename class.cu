@@ -18,7 +18,6 @@ __global__ void dot( float *a, float *b, float *c, int *N, float *add) {
 	 while (tid < *N) {
 		b[tid] += *add * a[tid];
 		temp += a[tid] * b[tid];
-		tid += blockDim.x * gridDim.x;
 	 }
 	 cache[cacheIndex] = temp;
 	 
@@ -33,26 +32,6 @@ __global__ void dot( float *a, float *b, float *c, int *N, float *add) {
 	 }
 	if (cacheIndex == 0)
 		c[blockIdx.x] = cache[0];
-}
-
-__global__ float para_learning(float* input, float error_factor, float* val_test, float* m_weight_old, float* m_weight, int* nb_branch, float *bias){
-	
-	int id = threadIdx.x + blockIdx.x * blockDim.x;
-	float y = 0.f;
-    float add = 0.f;
-	 for(int i = 0; i<m_nb_branchs; i++)
-    {
-        m_weight_old[i] = m_weight[i];
-    }
-    y = test(input);
-    add = y*(1-y)*error_factor;
-    for(int i = 0; i<m_nb_branchs; i++)
-    {
-        m_weight[i] += add*input[i]*learn_rate;
-    }
-	m_bias += add*learn_rate;
-	return add;	
-	
 }
 
 Neur::Neur(int nb_branchs)
@@ -157,10 +136,6 @@ float Neur::learning(float* input, float error_factor)
 	cudaFree( dev_N );
 	free(c);*/
 	 //Logistic neuron
-	 for(int i = 0; i<m_nb_branchs; i++)
-    {
-        m_weight_old[i] = m_weight[i];
-    }
     float y = 0.f;
     float add = 0.f;
     y = test(input);

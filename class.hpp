@@ -9,7 +9,7 @@ const float learn_rate = 3.f;
 
 class Neur
 {
-	friend class Net;
+	friend Net::learning(float m_expect, float *input);
 private:
     int m_nb_branchs;
     float *m_weight;
@@ -30,6 +30,8 @@ public:
 			return 0;
 	};
 };
+
+
 
 class Net{
 	
